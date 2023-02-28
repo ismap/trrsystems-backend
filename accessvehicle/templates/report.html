@@ -202,6 +202,14 @@
                             <p>{{ a.access_inspection.inspection_box_seal }}</p>
                         {% endif %}
                     </div>
+                    <div>
+                        <p>Número Carta Porte:</p>
+                        {% if a.access_inspection.inspection_document_cp_number == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_document_cp_number }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
@@ -589,6 +597,14 @@
                             <p></p>
                         {% else %}
                             <p>{{ a.access_inspection.inspection_box_seal }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Número Carta Porte:</p>
+                        {% if a.access_inspection.inspection_document_cp_number == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_document_cp_number }}</p>
                         {% endif %}
                     </div>
                 </div>

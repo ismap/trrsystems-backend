@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .inspection_today_layout{
+            padding-left: 5em;
+            padding-right: 5em;
+            margin-bottom: 5em;
+        }
+        .inspection_today_title{
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.6rem;
+        }
+        .inspection_latest_layout{
+            padding-left: 5em;
+            padding-right: 5em;
+            margin-bottom: 5em;
+        }
+        .inspection_latest_title{
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.6rem;
+        }
+        .inspection_latest{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .inspection_latest_card{
+            background-color: #fff;
+            font-family: 'Roboto', sans-serif;
+            padding: 1em 2em;
+            margin: 1em 1em 1em 0;
+            box-shadow: 1px 1px 14px #dedede;
+            border-radius: 5px;
+            min-width: 200px
+        }
+        .inspection_latest_card_date{
+            margin: 0;
+            margin-bottom: 1em;
+            font-weight: 300;
+            font-size: .9em;
+        }
+        .inspection_latest_card_control{
+            margin: 0;
+            font-weight: 400;
+            font-size: .8em;
+            text-transform: capitalize;
+        }
+        .inspection_latest_card_number{
+            margin-top: 1em;
+            margin-bottom: .5em;
+            font-weight: 400;
+            font-size: 1em;
+        }
+        .inspection_latest_card_link{
+            margin: 0;
+            font-weight: 300;
+            font-size: .9em;
+            letter-spacing: -.1px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="inspection_today_layout">
+
+        <div class="inspection_today_title">
+            <p>Registros Diarios</p>
+        </div>
+
+        <div class='inspection_latest'>
+            {% for a in today_access %}
+                {% if a.access_date == None %}
+                    <div>No existen registros el dia de hoy</div>
+                {% else %}
+                    <div class='inspection_latest_card'>
+                        <p class='inspection_latest_card_control'>{{ a.access_control }}</p>
+                        <p class='inspection_latest_card_number'>T{{ a.access_truck }} C{{ a.access_trailer }}</p>
+                        <p class='inspection_latest_card_date'>{{ a.access_date }}</p>
+                        <a class="inspection_latest_card_link" href="{% url 'pdf' a.id %}" target="_blank">Descargar Reporte</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="inspection_latest_layout">
+        <div>
+            <p class="inspection_latest_title">Archivo de Control de Accesos</p>
+        </div>
+        <div>
+            <a  href="{% url 'archive_year' 2022 %}">Ir al archivo del control de accesos</a>
+        </div>
+    </div>
+</body>
+</html>

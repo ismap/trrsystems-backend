@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import AccessControlViewSet, DashboardView, AccessYearArchiveView, PortableDocumentFormatView
+from .views import AccessControlViewSet, DashboardView, AccessYearArchiveView
 
 from rest_framework import routers
 router = routers.DefaultRouter()

@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  container-django:
+    build: .
+    ports: 
+      - "8001:8001"
+    links:
+      - container-postgresql
+  container-postgresql:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=Default.20.22
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=trrsystems

@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'trrsystems',
         'USER': 'postgres',
         'PASSWORD': 'Default.20.22',
-        'HOST': 'localhost',
+        'HOST': 'container-postgresql',
         'PORT': '5432',
     }
 }

@@ -10,5 +10,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('', DashboardView.as_view(), name='accessDashboard'),
     path('archivo/year/<int:year>', AccessYearArchiveView.as_view(), name='archive_year'),
-    path('report/<int:id>/', PortableDocumentFormatView, name='pdf' )
+    #path('report/<int:id>/', PortableDocumentFormatView, name='pdf' )
 ]

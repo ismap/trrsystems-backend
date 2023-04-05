@@ -15,7 +15,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=trrsystems
     volumes:
-      - type: local
-      - postgres-data: /var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 volumes:
   postgres-data:

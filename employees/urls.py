@@ -8,5 +8,6 @@ router.register(r'administrativos', CatalogEmployeeViewSet)
 router.register(r'operativos', CatalogEmployeeTruckViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
 ]

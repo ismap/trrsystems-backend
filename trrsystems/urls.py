@@ -20,9 +20,15 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('accesovehicular/', include('accessvehicle.urls')),
     path('inspecciones/', include('inspectionsvehicle.urls')),
-    path('vehiculos/', include('fleetvehicle.urls')),
-    path('empleados/', include('employees.urls')),
+    
+    path('admin/', admin.site.urls),
+    
+    path('api/vehiculos/', include('fleetvehicle.urls')),
+    path('api/empleados/', include('employees.urls')),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

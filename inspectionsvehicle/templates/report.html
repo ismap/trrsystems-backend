@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reporte</title>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+            @page {
+                size: letter landscape;
+                margin: 1.5cm;
+            }
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            .document-header{
+                margin-bottom: 1em;
+            }
+            .document-header-title p{
+                font-family: 'Roboto', sans-serif;
+                font-size: 2rem;
+            }
+            .document-header-date p{
+                font-family: 'Roboto', sans-serif;
+                font-size: .8rem;
+                margin-top: .5em;
+            }
+            .document-header-date p span{
+                text-transform: capitalize;
+            }
+            .document-table{
+                border: 1px solid gray;
+                margin-bottom: 1em;
+                display: inline-block;
+            }
+            .document-table-title{
+                background-color: rgb(53, 53, 53);
+                color: white;
+                padding-top: .2em;
+                padding-bottom: .2em;
+            }
+            .document-table-title p{
+                font-family: 'Roboto', sans-serif;
+                font-size: .8rem;
+                margin-left: .5em;
+            }
+            .document-table-details{
+                display: flex;
+                margin-left: .5em;
+            }
+            .document-table-details div{
+                margin-top: .5em;
+                margin-bottom: .5em;
+                margin-right: 2em;
+                display: inline-block;
+            }
+            .document-table-details div p:first-child{
+                font-family: 'Roboto', sans-serif;
+                font-size: .7rem;
+                font-weight: 300;
+                margin-bottom: .3em;
+                display: inline-block;
+            }
+            .document-table-details div p:last-child{
+                font-family: 'Roboto', sans-serif;
+                font-size: .8rem;
+                font-weight: 500;
+
+            }
+
+            .document-table-list{
+                padding-top: 1em;
+                padding-left: 1em;
+                padding-right: 0;
+                padding-bottom: 1em;
+            }
+            .document-table-list ul li{
+                font-family: 'Roboto', sans-serif;
+                font-weight: 300;
+                font-size: .8rem;
+                margin-bottom: .3em;
+            }
+            .document-table-list ul li span{
+                font-weight: 500;
+            }
+
+            .document-table-images{
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: .5em;
+                margin-bottom: .5em;
+                margin-left: .5em;
+                margin-right: .5em;
+            }
+            .document-table-images-container{
+                margin-right: .7em;
+                margin-top: .5em;
+                margin-bottom: .5em;
+                width: 150px;
+                height: 200px;
+            }
+            .document-table-images-container-image img{
+                width: 150px;
+                height: 150px;
+            }
+            .document-table-images-container-text p:first-child{
+                font-family: 'Roboto', sans-serif;
+                font-size: .8rem;
+                margin-top: .5em;
+            }
+            .document-table-images-container-text p:last-child{
+                margin-top: .3em;
+                text-transform: capitalize;
+                font-family: 'Roboto', sans-serif;
+                font-size: .7rem;
+                font-weight: 300;
+            }
+
+            .mb{
+                margin-top: 4em;
+            }
+            .signature{
+                width: 5em;
+            }
+        </style>
+        
+    </head>
+
+    <body>
+
+        {% if a.access_control == 'Entrada de Unidad' %}
+
+            <div class="document-header">
+
+                <div class="document-header-title">
+                    <p>Control de Acceso Vehícular</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_control }}</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_date|date:"d F y, h:i a" }}</p>
+                </div>
+
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>1. Información del Tractocamión</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Número :</p>
+                        <p>T{{a.access_truck.truck_number}}</p>
+                    </div>
+                    <div>
+                        <p>Placas :</p>
+                        <p>{{a.access_truck.truck_plates}}</p>
+                    </div>
+                    <div>
+                        <p>Tipo de Unidad :</p>
+                        <p>{{a.access_truck.truck_model}}</p>
+                    </div>
+                    <div>
+                        <p>Conductor :</p>
+                        <p>{{a.access_truck.truck_driver.employee_name}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>2. Información de la Caja</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Número :</p>
+                        <p>C{{a.access_trailer.trailer_number}}</p>
+                    </div>
+                    <div>
+                        <p>Placas :</p>
+                        <p>{{a.access_trailer.trailer_plate}}</p>
+                    </div>
+                    <div>
+                        <p>Tipo de Unidad :</p>
+                        <p>{{a.access_trailer.trailer_type}}</p>
+                    </div>
+                    <div>
+                        <p>Vacío o Cargado :</p>
+                        {% if a.access_inspection.inspection_box_load == None %}
+                            <p>Pendiente de Inspección</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_box_load }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Sello de Seguridad:</p>
+                        {% if a.access_inspection.inspection_box_seal == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_box_seal }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Número Carta Porte:</p>
+                        {% if a.access_inspection.inspection_document_cp_number == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_document_cp_number }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-header mb">
+
+                <div class="document-header-title">
+                    <p>Inspección Vehículos de Carga</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_inspection.inspection_create|date:"d F y, h:i a" }}</p>
+                </div>
+
+            </div>
+
+            <div class="document-table">
+
+                <div class="document-table-title">
+                    <p>3. Inspección del Tractocamión</p>
+                </div>
+
+                <div class="document-table-list">
+                    <ul>
+                        <li>1. Defensa Delantera - 
+                            {% if a.access_inspection.inspection_truck_defense == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_truck_defense }}</span>
+                            {% endif %}
+                        </li>
+                        <li>2. Motor de Tractocamión - 
+                            {% if a.access_inspection.inspection_truck_engine == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_truck_engine }}</span>
+                            {% endif %}
+                        </li>
+                        <li>3. Neumaticos de Tractocamión - 
+                            {% if a.access_inspection.inspection_truck_tires == None  %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_truck_tires }}</span>
+                            {% endif %}
+                        </li>
+                        <!--li>4. Piso del Tractocamión - <span>Sin Anomalías </span></li-->
+                        <li>5. Tanque de Combustible - 
+                            {% if a.access_inspection.inspection_truck_fueltank == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_truck_fueltank }}</span>
+                            {% endif %}
+                        </li>
+                        <!--li>6. Compartimientos de Almacenamiento - <span>Sin Anomalías</span> </li-->
+                        <!--li>7. Tanques de Aire - <span>Sin Anomalías</span> </li-->
+                        <!--li>8. Ejes de Accionamiento - <span>Sin Anomalías</span> </li-->
+                        <!--li>9. Quinta Rueda - <span>Sin Anomalías</span> </li-->
+                    </ul>
+                </div>
+
+                <div class="document-table-images">
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_truck_defense_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_truck_engine_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p>{{ i.inspection_truck_engine }}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_truck_fueltank_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p>{{ i.inspection_truck_fueltank }}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_truck_tires_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p>{{ i.inspection_truck_tires }}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+
+                <div class="document-table-title">
+                    <p>4. Inspección de la Caja</p>
+                </div>
+
+                <div class="document-table-list">
+                    <ul>
+                        <li>10. Pared Izquierda - 
+                            {% if a.access_inspection.inspection_box_leftwall == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_leftwall }}</span>
+                            {% endif %}
+                        </li>
+                        <li>11. Pared Derecha - 
+                            {% if a.access_inspection.inspection_box_rightwall == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_rightwall }}</span>
+                            {% endif %}
+                        </li>
+                        <li>12. Puertas Traseras - 
+                            {% if a.access_inspection.inspection_box_backdoors == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_backdoors }}</span>
+                            {% endif %}
+                        </li>
+                        <!--li>13. Piso de la Caja (Por dentro) - <span>Sin Anomalías </span></li-->
+                        <!--li>14. Paredes de la Caja (Por dentro) - <span>Sin Anomalías </span></li-->
+                        <!--li>15. Techo de la Caja (Por dentro) - <span>Sin Anomalías</span> </li-->
+                        <li>16. Unidad de Refrigeración - 
+                            {% if a.access_inspection.inspection_box_coolingunit == None %}
+                            <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_coolingunit}}</span>
+                            {% endif %}
+                        </li>
+                        <li>17. Neumaticos de la Caja - 
+                            {% if a.access_inspection.inspection_box_tires == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_tires}}</span>
+                            {% endif %}
+                        </li>
+                        <li>18. Contaminantes Agricolas - 
+                            {% if a.access_inspection.inspection_box_pollutants == None %}
+                                <span>No definido</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_pollutants}}</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="document-table-images">
+
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_coolingunit_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_leftwall_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_rightwall_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_backdoors_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_under_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_tires_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>5. Información del Inspector</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Nombre :</p>
+                        {% if a.access_inspection.inspection_inspector == None %}
+                            <p>Pendiente de Inspección</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Número :</p>
+                        {% if a.access_inspection.inspection_inspector.employee_number == None %}
+                            <p>0000</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector.employee_number }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>RFC :</p>
+                        {% if a.access_inspection.inspection_inspector.employee_rfc == None  %}
+                            <p>XAXX010101000</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector.employee_rfc }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Firma:</p>
+                        <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_inspector.employee_signature }}" class="signature" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>6. Información del Conductor</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Nombre :</p>
+                        <p>{{ a.access_truck.truck_driver }}</p>
+                    </div>
+                    <div>
+                        <p>Número :</p>
+                        <p>{{ a.access_truck.truck_driver.employee_number }}</p>
+                    </div>
+                    <div>
+                        <p>RFC :</p>
+                        <p>{{ a.access_truck.truck_driver.employee_rfc }}</p>
+                    </div>
+                    <div>
+                        <p>Firma:</p>
+                        <img src="http://192.168.1.200:81/media/{{ a.access_truck.truck_driver.employee_signature }}" class="signature" />
+                    </div>
+                </div>
+            </div>
+            
+        {% elif a.access_control == 'Salida de Unidad' %}
+        
+            <div class="document-header">
+
+                <div class="document-header-title">
+                    <p>Control de Acceso Vehícular</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_control }}</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_date|date:"d F y, h:i a" }}</p>
+                </div>
+
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>1. Información del Tractocamión</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Número :</p>
+                        <p>T{{a.access_truck.truck_number}}</p>
+                    </div>
+                    <div>
+                        <p>Placas :</p>
+                        <p>{{a.access_truck.truck_plates}}</p>
+                    </div>
+                    <div>
+                        <p>Tipo de Unidad :</p>
+                        <p>{{a.access_truck.truck_model}}</p>
+                    </div>
+                    <div>
+                        <p>Conductor :</p>
+                        <p>{{a.access_truck.truck_driver.employee_name}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>2. Información de la Caja</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Número :</p>
+                        <p>C{{a.access_trailer.trailer_number}}</p>
+                    </div>
+                    <div>
+                        <p>Placas :</p>
+                        <p>{{a.access_trailer.trailer_plate}}</p>
+                    </div>
+                    <div>
+                        <p>Tipo de Unidad :</p>
+                        <p>{{a.access_trailer.trailer_type}}</p>
+                    </div>
+                    <div>
+                        <p>Vacío o Cargado :</p>
+                        {% if a.access_inspection.inspection_box_load == None %}
+                            <p>Pendiente de Inspección</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_box_load }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Sello de Seguridad:</p>
+                        {% if a.access_inspection.inspection_box_seal == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_box_seal }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Número Carta Porte:</p>
+                        {% if a.access_inspection.inspection_document_cp_number == None %}
+                            <p></p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_document_cp_number }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-header mb">
+
+                <div class="document-header-title">
+                    <p>Inspección Vehículos de Carga</p>
+                </div>
+                <div class="document-header-date">
+                    <p>{{ a.access_inspection.inspection_create|date:"d F y, h:i a" }}</p>
+                </div>
+
+            </div>
+
+            <div class="document-table">
+
+                <div class="document-table-title">
+                    <p>4. Inspección de la Caja</p>
+                </div>
+
+                <div class="document-table-list">
+                    <ul>
+                        <li>10. Pared Izquierda - 
+                            {% if a.access_inspection.inspection_box_leftwall == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_leftwall }}</span>
+                            {% endif %}
+                        </li>
+                        <li>11. Pared Derecha - 
+                            {% if a.access_inspection.inspection_box_rightwall == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_rightwall }}</span>
+                            {% endif %}
+                        </li>
+                        <li>12. Puertas Traseras - 
+                            {% if a.access_inspection.inspection_box_backdoors == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{ a.access_inspection.inspection_box_backdoors }}</span>
+                            {% endif %}
+                        </li>
+                        <!--li>13. Piso de la Caja (Por dentro) - <span>Sin Anomalías </span></li-->
+                        <!--li>14. Paredes de la Caja (Por dentro) - <span>Sin Anomalías </span></li-->
+                        <!--li>15. Techo de la Caja (Por dentro) - <span>Sin Anomalías</span> </li-->
+                        <li>16. Unidad de Refrigeración - 
+                            {% if a.access_inspection.inspection_box_coolingunit == None %}
+                            <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_coolingunit}}</span>
+                            {% endif %}
+                        </li>
+                        <li>17. Neumaticos de la Caja - 
+                            {% if a.access_inspection.inspection_box_tires == None %}
+                                <span>Pendiente de Inspección</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_tires}}</span>
+                            {% endif %}
+                        </li>
+                        <li>18. Contaminantes Agricolas - 
+                            {% if a.access_inspection.inspection_box_pollutants == None %}
+                                <span>No definido</span>
+                            {% else %}
+                                <span>{{a.access_inspection.inspection_box_pollutants}}</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="document-table-images">
+
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_leftwall_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_rightwall_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_backdoors_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_seal_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_tires_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_coolingunit_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                    <div class="document-table-images-container">
+
+                        <div class='document-table-images-container-image'>
+                            <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_box_pollutants_image }}" />
+                        </div>
+
+                        <div class='document-table-images-container-text'>
+                            <p></p>
+                            <p></p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>5. Información del Inspector</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Nombre :</p>
+                        {% if a.access_inspection.inspection_inspector == None %}
+                            <p>Pendiente de Inspección</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Número :</p>
+                        {% if a.access_inspection.inspection_inspector.employee_number == None %}
+                            <p>0000</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector.employee_number }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>RFC :</p>
+                        {% if a.access_inspection.inspection_inspector.employee_rfc == None  %}
+                            <p>XAXX010101000</p>
+                        {% else %}
+                            <p>{{ a.access_inspection.inspection_inspector.employee_rfc }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>Firma:</p>
+                        <img src="http://192.168.1.200:81/media/{{ a.access_inspection.inspection_inspector.employee_signature }}" class="signature" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+                <div class="document-table-title">
+                    <p>6. Información del Conductor</p>
+                </div>
+                <div class="document-table-details">
+                    <div>
+                        <p>Nombre :</p>
+                        <p>{{ a.access_truck.truck_driver }}</p>
+                    </div>
+                    <div>
+                        <p>Número :</p>
+                        <p>{{ a.access_truck.truck_driver.employee_number }}</p>
+                    </div>
+                    <div>
+                        <p>RFC :</p>
+                        <p>{{ a.access_truck.truck_driver.employee_rfc }}</p>
+                    </div>
+                    <div>
+                        <p>Firma:</p>
+                        <img src="http://192.168.1.200:81/media/{{ a.access_truck.truck_driver.employee_signature }}" class="signature" />
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Week {{ week|date:'W' }}</h1>
+
+<ul>
+    {% for a in object_list %}
+        <li>{{ a.access_date|date:"F j, Y" }}: T{{ a.access_truck }} C{{ a.access_trailer }}</li>
+    {% endfor %}
+</ul>
+
+<p>
+    {% if previous_week %}
+        Previous Week: {{ previous_week|date:"W" }} of year {{ previous_week|date:"Y" }}
+    {% endif %}
+    {% if previous_week and next_week %}--{% endif %}
+    {% if next_week %}
+        Next week: {{ next_week|date:"W" }} of year {{ next_week|date:"Y" }}
+    {% endif %}
+</p>
+</body>
+</html>

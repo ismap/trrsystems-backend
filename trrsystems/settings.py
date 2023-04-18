@@ -49,7 +49,10 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 }
 
 
@@ -91,10 +94,10 @@ WSGI_APPLICATION = 'trrsystems.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'trrsystems',
+        'NAME': 'tester_django',
         'USER': 'postgres',
-        'PASSWORD': 'Default.20.22',
-        'HOST': 'container-postgresql',
+        'PASSWORD': 'Default.20.23',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -122,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-MX'
 
 TIME_ZONE = 'America/Monterrey'
 

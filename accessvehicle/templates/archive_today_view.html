@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Archivo Diario {{ day }}</title>   
+	<style>
+        .mt-1{
+            margin-top: .70rem;
+        }
+	</style>                            
+</head>
+<body>
+	<h1>Archivo {{ day }}</h1>
+
+    <div>
+        <ul>
+            {% for a in object_list %}
+                <li>{{ a.access_date|date:"F j, Y" }}: T{{ a.access_truck }} C{{ a.access_trailer }}</li>
+            {% endfor %}
+
+
+            <div class="mt-1">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; Primera</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+        </ul>
+    <div>
+
+    <div>
+        <h1>Enlaces</h1>
+
+        <div>
+            <a href="{% url 'archive' %}">Volver al archivo general</a>
+        </div>
+
+        <div class="mt-1">
+            <a href="#">Descargar reporte de excel</a>
+        </div>
+        
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Archivo del mes {{ month|date:"F Y" }}</title>
+	<style>
+		.mt-1{
+			margin-top: .70rem;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Archivo del mes {{ month|date:"F Y" }}</h1>
+	<ul>
+    {% for article in object_list %}
+        <li>{{ article.access_date|date:"F j, Y" }}: {{ article.access_truck }} {{ article.access_trailer }}</li>
+    {% endfor %}
+
+		<div class="mt-1">
+			<div class="pagination">
+				<span class="step-links">
+						{% if page_obj.has_previous %}
+								<a href="?page=1">&laquo; Primera</a>
+								<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+						{% endif %}
+
+						<span class="current">
+								Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+						</span>
+
+						{% if page_obj.has_next %}
+								<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+								<a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+						{% endif %}
+				</span>
+			</div>
+		</div>
+	</ul>
+
+	<div>
+		<h1>Enlaces</h1>
+
+		<div class="">
+			<a href="{% url 'archive' %}">Volver al archivo general</a>
+		</div>
+
+		<div class="mt-1">
+			<a href="#">Descargar reporte en excel</a>
+		</div>
+
+	</div>
+
+	<div>
+		<h1>Filtros</h1>
+
+		<div class="mt-1">
+			{% for week in week_list %}
+				<a href="{% url 'archive_week' year=week.year week=week.week %}">Filtro de archivo por semana {{ week }}</a>
+			{% endfor %}
+		</div>
+	</div>
+
+
+</body>
+</html>

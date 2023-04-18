@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Archivo Anual {{ year|date:"Y" }}</title>
+	<style>
+        .mt-1{
+            margin-top: .70rem;
+        }
+	</style>
+</head>
+<body>
+
+	<div>
+
+        <h1>Archivo del año {{ year|date:"Y" }}</h1>
+
+        <ul>
+            {% for obj in object_list %}
+                <li>{{ obj.access_date}} {{ obj.access_truck }} {{ obj.access_trailer }}</li>
+            {% endfor %}
+
+            <div class="mt-1">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; Primera</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </ul>
+
+
+    </div>
+
+    <div>
+
+        <h1>Enlaces</h1>
+
+        <div class="">
+            <a href="{% url 'archive' %}">Volver al archivo general</a>
+        </div>
+
+        <div class="mt-1">
+            <a href="#" class="link-item-margin">Descargar reporte en excel</a>
+        </div>
+
+    </div>
+
+    <div>
+        <h1>Filtros</h1>
+
+        <div class="mt-1">
+            {% for date in date_list %}
+                <div>
+                    <a href="{% url 'archive_month' date.year date.month %}">Filtro de archivo por mes de {{ date|date:"F" }}</a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    
+</body>
+</html>

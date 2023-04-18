@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Archivo</title>
+	<style>
+        .mt-1{
+            margin-top: .70rem;
+        }
+	</style>
+</head>
+<body>
+
+	<h1>Archivo</h1>
+
+	<ul>
+        {% for a in latest %}
+            <li>{{ a.access_date }}: {{ a.access_truck }} {{ a.access_trailer }}</li>
+        {% endfor %}
+
+        <div class="mt-1">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; Primera</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+	</ul>
+
+    <div>
+        <h1>Enlaces</h1>
+        <div>
+            <a href="#" class="link-item-margin">Descargar reporte en excel</a>
+        </div>
+    </div>
+
+    <div>
+        <h1>Filtros</h1>
+
+        <div class="mt-1">
+            <a href="{% url 'archive_today' %}">Filtro de archivo por día</a>
+        </div>
+
+        <div class="mt-1">
+            {% for date in date_list %}
+                <a href="{% url 'archive_year' date.year %}">Filtro de archivo por año {{ date.year }}</a></li>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>

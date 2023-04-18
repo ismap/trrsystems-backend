@@ -94,10 +94,10 @@ WSGI_APPLICATION = 'trrsystems.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tester_django',
+        'NAME': 'trrsystems',
         'USER': 'postgres',
         'PASSWORD': 'Default.20.23',
-        'HOST': 'localhost',
+        'HOST': 'container-postgresql',
         'PORT': '5432',
     }
 }

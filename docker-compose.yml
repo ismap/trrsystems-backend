@@ -20,4 +20,4 @@ services:
       - postgres-data:/var/lib/postgresql/data
 volumes:
   postgres-data:
-  django-media:
+  media:

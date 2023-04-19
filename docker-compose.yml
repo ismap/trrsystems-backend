@@ -8,8 +8,8 @@ services:
       - container-postgresql
     volumes:
     #- .:/usr/src/app/trrsystems-backend/
-    #- media:/usr/src/app/media/
-    - media:/usr/src/app/trrsystems-backend/media:/usr/src/app/media/
+    - media:/usr/src/app/media/
+    #media:/usr/src/app/trrsystems-backend/media:/usr/src/app/media/
   container-postgresql:
     image: postgres
     ports:

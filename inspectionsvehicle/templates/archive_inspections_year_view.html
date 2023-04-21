@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Archivo Anual {{ year|date:"Y" }}</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+    *{
+      font-family: 'Roboto', sans-serif;
+      font-size: .9rem;
+    }
+    .mt-1{
+      margin-top: .70rem;
+    }
+	</style>
+</head>
+<body>
+
+	<div>
+
+    <h1>Archivo del año {{ year|date:"Y" }}</h1>
+
+		<div>
+			<table>
+				<tr>
+          <th style="padding-left: 1em; padding-right: 1em;">Fecha</th>
+          <th style="padding-left: 1em; padding-right: 1em;">Estado</th>
+          <th style="padding-left: 1em; padding-right: 1em;">Número Tractocamión</th>
+          <th style="padding-left: 1em; padding-right: 1em;">Número de Caja</th>
+          <th style="padding-left: 1em; padding-right: 1em;">Reporte</th>
+        </tr>
+				{% for obj in object_list %}
+				<tr>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ obj.access_date}}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ obj.access_control }}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">T{{ obj.access_truck }}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">C{{ obj.access_trailer }}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;"><a href="{% url 'pdf'  obj.id %}">Descargar Reporte</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+    <div class="mt-1">
+      <div class="pagination">
+        <span class="step-links">
+        	{% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+					<span class="current">
+						Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+					</span>
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="mt-1">
+    <h1>Filtros</h1>
+
+    <div class="mt-1">
+			<table>
+				<tr>
+					<th style="padding-left: 1em; padding-right: 1em;">Mes</th>
+					<th style="padding-left: 1em; padding-right: 1em;">Año</th>
+					<th style="padding-left: 1em; padding-right: 1em;">Enlace</th>
+				</tr>
+				{% for date in date_list %}
+				<tr>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ date|date:"M" }}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ date|date:"Y" }}</td>
+					<td style="text-align: center; padding-left: 1em; padding-right: 1em;"><a href="{% url 'archive_inspections_month' date.year date.month %}">Ir al archivo</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+    </div>
+
+  </div>
+
+  <div class="mt-1">
+    <a href="{% url 'archive_inspections' %}">Volver al archivo general</a>
+  </div>
+
+    
+</body>
+</html>

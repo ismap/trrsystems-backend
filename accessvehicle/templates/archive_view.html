@@ -6,6 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Archivo</title>
 	<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+        *{
+            font-family: 'Roboto', sans-serif;
+            font-size: .9rem;
+        }
         .mt-1{
             margin-top: .70rem;
         }
@@ -15,53 +20,67 @@
 
 	<h1>Archivo</h1>
 
-	<ul>
-        {% for a in latest %}
-            <li>{{ a.access_date }}: {{ a.access_truck }} {{ a.access_trailer }}</li>
-        {% endfor %}
-
-        <div class="mt-1">
-            <div class="pagination">
-                <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo; Primera</a>
-                        <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-        </div>
-
-	</ul>
-
     <div>
-        <h1>Enlaces</h1>
-        <div>
-            <a href="#" class="link-item-margin">Descargar reporte en excel</a>
-        </div>
+        <table>
+            <tr>
+                <th style="padding-left: 1em; padding-right: 1em;">Fecha</th>
+                <th style="padding-left: 1em; padding-right: 1em;">Estado</th>
+                <th style="padding-left: 1em; padding-right: 1em;">Número Tractocamión</th>
+                <th style="padding-left: 1em; padding-right: 1em;">Número de Caja</th>
+                <th style="padding-left: 1em; padding-right: 1em;">Nombre del Conductor</th>
+            </tr>
+            {% for a in latest %}
+            <tr>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_date }}</td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_control }}</td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">T{{ a.access_truck }}</td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">C{{ a.access_trailer }}</td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_truck.truck_driver }}</td>
+            </tr>
+            {% endfor %}
+        <table>
     </div>
 
-    <div>
-        <h1>Filtros</h1>
 
-        <div class="mt-1">
-            <a href="{% url 'archive_today' %}">Filtro de archivo por día</a>
-        </div>
+    <div class="mt-1">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; Primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
 
-        <div class="mt-1">
-            {% for date in date_list %}
-                <a href="{% url 'archive_year' date.year %}">Filtro de archivo por año {{ date.year }}</a></li>
-            {% endfor %}
-        </div>
+                <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
 
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                {% endif %}
+            </span>
+         </div>
+    </div>
+
+    <div class="mt-1">
+		<table>
+			<tr>
+				<th style="padding-left: 1em; padding-right: 1em;">Año</th>
+				<th style="padding-left: 1em; padding-right: 1em;">Enlace</th>
+                <th style="padding-left: 1em; padding-right: 1em;">Reporte</th>
+			</tr>
+			{% for date in date_list %}
+			<tr>
+				<td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ date.year }}</td>
+				<td style="text-align: center; padding-left: 1em; padding-right: 1em;"><a href="{% url 'archive_year' date.year %}">Ir al archivo</a></td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;"><a href="#">Descargar Reporte</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+    </div>
+
+    <div class="mt-1">
+        <a href="{% url 'archive_today' %}">Dia de hoy</a>
     </div>
 
 </body>

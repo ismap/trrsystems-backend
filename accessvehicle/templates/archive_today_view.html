@@ -6,6 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Archivo Diario {{ day }}</title>   
 	<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+        *{
+        font-family: 'Roboto', sans-serif;
+        font-size: .9rem;
+        }
         .mt-1{
             margin-top: .70rem;
         }
@@ -14,47 +19,49 @@
 <body>
 	<h1>Archivo {{ day }}</h1>
 
-    <div>
-        <ul>
-            {% for a in object_list %}
-                <li>{{ a.access_date|date:"F j, Y" }}: T{{ a.access_truck }} C{{ a.access_trailer }}</li>
+	<div>
+        <table>
+        <tr>
+            <th style="padding-left: 1em; padding-right: 1em;">Fecha</th>
+            <th style="padding-left: 1em; padding-right: 1em;">Estado</th>
+            <th style="padding-left: 1em; padding-right: 1em;">Número Tractocamión</th>
+            <th style="padding-left: 1em; padding-right: 1em;">Número de Caja</th>
+            <th style="padding-left: 1em; padding-right: 1em;">Nombre del Conductor</th>
+        </tr>
+        {% for obj in object_list %}
+        <tr>
+            <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ obj.access_date }}</td>
+            <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ obj.access_control }}</td>
+            <td style="text-align: center; padding-left: 1em; padding-right: 1em;">T{{ obj.access_truck }}</td>
+            <td style="text-align: center; padding-left: 1em; padding-right: 1em;">C{{ obj.access_trailer }}</td>
+            <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ obj.access_truck.truck_driver }}</td>
+        </tr>
             {% endfor %}
+        <table>
+    </div>
 
+    <div class="mt-1">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; Primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
 
-            <div class="mt-1">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if page_obj.has_previous %}
-                            <a href="?page=1">&laquo; Primera</a>
-                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                        {% endif %}
+                <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
 
-                        <span class="current">
-                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                        </span>
-
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                            <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-            
-        </ul>
-    <div>
-
-    <div>
-        <h1>Enlaces</h1>
-
-        <div>
-            <a href="{% url 'archive' %}">Volver al archivo general</a>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                {% endif %}
+            </span>
         </div>
+    </div>
 
-        <div class="mt-1">
-            <a href="#">Descargar reporte de excel</a>
-        </div>
-        
+    <div class="mt-1">
+        <a href="{% url 'archive' %}">Volver al archivo general</a>
     </div>
 
 </body>

@@ -27,6 +27,28 @@ class ArchiveView(ArchiveIndexView):
     date_field= 'access_date'
     paginate_by = 10
 
+class ArchiveYearView(YearArchiveView):
+    template_name= 'archive_inspections_year_view.html'
+    queryset = AccessVehicle.objects.all()
+    date_field= 'access_date'
+    make_object_list= True
+    allow_future= True
+    paginate_by = 10
+    
+class ArchiveMonthView(MonthArchiveView):
+    template_name= 'archive_inspections_month_view.html'
+    queryset = AccessVehicle.objects.all()
+    date_field= "access_date"
+    allow_future= True
+    paginate_by = 10
+    
+class ArchiveTodayView(TodayArchiveView):
+    template_name= 'archive_inspections_today_view.html'
+    queryset = AccessVehicle.objects.all()
+    date_field = 'access_date'
+    allow_future= True
+    paginate_by = 10
+
 def generate_pdf(request, id):
     # Obtener la plantilla HTML
     template = get_template('report.html')

@@ -10,7 +10,9 @@ class Employee(models.Model):
     employee_rfc = models.CharField(max_length=50)
     employee_photo = models.ImageField(upload_to='Empleados/Oficinas', null=True)
     employee_signature = models.ImageField(upload_to='Empleados/Oficinas', null=True)
-
+    def __str__(self):
+        return str(self.employee_name)
+    
 class EmployeeTruck(models.Model):
     employee_create = models.DateTimeField(auto_now_add=True)
     employee_name = models.CharField(max_length=50)
@@ -19,3 +21,5 @@ class EmployeeTruck(models.Model):
     employee_rfc = models.CharField(max_length=50)
     employee_photo = models.ImageField(upload_to='Empleados/Operadores', blank=True, null=True)
     employee_signature = models.ImageField(upload_to='Empleados/Operadores', blank=True, null=True)
+    def __str__(self):
+        return str(self.employee_name)

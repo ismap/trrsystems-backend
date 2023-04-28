@@ -13,13 +13,13 @@ from .models import Inspection
 from accessvehicle.models import AccessVehicle
 
 from rest_framework import viewsets
-from .serializers import AccessControlSerializer, InspectionSerializer
+from .serializers import  InspectionSerializer
 
 # Create your views here.
 
 class InspectionViewSet(viewsets.ModelViewSet):
     queryset= AccessVehicle.objects.all().order_by('-access_date')
-    serializer_class = AccessControlSerializer
+    serializer_class = InspectionSerializer
     
 class ArchiveView(ArchiveIndexView):
     template_name= 'archive_inspections_view.html'

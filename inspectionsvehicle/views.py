@@ -18,7 +18,7 @@ from .serializers import  InspectionSerializer
 # Create your views here.
 
 class InspectionViewSet(viewsets.ModelViewSet):
-    queryset= AccessVehicle.objects.all().order_by('-access_date')
+    queryset= Inspection.objects.all().order_by('-inspection_create')
     serializer_class = InspectionSerializer
     
 class ArchiveView(ArchiveIndexView):

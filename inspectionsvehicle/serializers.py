@@ -10,6 +10,11 @@ class InspectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inspection
         fields = '__all__'
+    def create(self, validated_data):
+        """
+        Create and return a new `Snippet` instance, given the validated data.
+        """
+        return Inspection.objects.create(**validated_data)
 
 #class AccessControlSerializer(serializers.ModelSerializer):
     #access_date = serializers.DateTimeField(format="%d-%m-%y %I:%M", read_only=True)

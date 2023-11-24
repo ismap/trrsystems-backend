@@ -25,4 +25,4 @@ class Trailer(models.Model):
     trailer_serial = models.CharField(max_length=50)
     trailer_type = models.CharField(max_length=50)
     def __str__(self):
-        return self.trailer_number
+        return self.trailer_number  

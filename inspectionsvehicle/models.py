@@ -25,7 +25,7 @@ class Inspection(models.Model):
 
     INSPECTION_DOCUMENT_CHOICES = [
         ('Sí', 'Sí'),
-        ('No', 'No')
+        ('No', 'No'),
     ]
 
     inspection_create = models.DateTimeField(auto_now=True)
@@ -37,10 +37,11 @@ class Inspection(models.Model):
     inspection_truck_defense_image = models.ImageField(upload_to='Inspecciones/Tractocamiones', null=True, blank=True)
     inspection_truck_engine = models.CharField(max_length=100, choices=INSPECTION_CHOICES, null=True)
     inspection_truck_engine_image = models.ImageField(upload_to='Inspecciones/Tractocamiones', null=True, blank=True)
-    inspection_truck_fueltank = models.CharField(max_length=100, choices=INSPECTION_CHOICES, null=True)
-    inspection_truck_fueltank_image = models.ImageField(upload_to='Inspecciones/Tractocamiones', null=True, blank=True)
     inspection_truck_tires = models.CharField(max_length=100, choices=INSPECTION_CHOICES, null=True)
     inspection_truck_tires_image = models.ImageField(upload_to='Inspecciones/Tractocamiones', null=True, blank=True)
+    inspection_truck_fueltank = models.CharField(max_length=100, choices=INSPECTION_CHOICES, null=True)
+    inspection_truck_fueltank_image = models.ImageField(upload_to='Inspecciones/Tractocamiones', null=True, blank=True)
+    
 
     inspection_box_number = models.ForeignKey(Trailer, on_delete=models.PROTECT, null=True)
     inspection_box_coolingunit = models.CharField(max_length=100, choices=INSPECTION_CHOICES, null=True)
@@ -77,6 +78,9 @@ class Inspection(models.Model):
     inspection_document_circulation = models.CharField(max_length=100, choices=INSPECTION_DOCUMENT_CHOICES, null=True)
     inspection_document_physicalmechanics =  models.CharField(max_length=100, choices=INSPECTION_DOCUMENT_CHOICES, null=True)
     inspection_document_securepolicy = models.CharField(max_length=100, choices=INSPECTION_DOCUMENT_CHOICES, null=True)
+    
+    inspection_signature_driver = models.ImageField(upload_to='Inpecciones/Firmas', null=True, blank=True)
 
     def __str__(self):
         return str(self.id)
+    

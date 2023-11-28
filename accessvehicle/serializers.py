@@ -17,7 +17,7 @@ class AccessControlSerializer(ModelSerializer):
     access_inspection = InspectionSerializer()
     class Meta:
         model = AccessVehicle
-        fields =  ["access_date","access_control","access_truck","access_trailer","access_inspection"]
+        fields =  ["id","access_date","access_control","access_truck","access_trailer","access_inspection"]
 
     def create(self, validated_data):
         inspection_data = validated_data.pop('access_inspection')

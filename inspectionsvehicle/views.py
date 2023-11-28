@@ -59,7 +59,7 @@ def generate_pdf(request, id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="archivo.pdf"'
     
-    pisaStatus = pisa.CreatePDF(html, dest=response)
+    pisaStatus = pisa.CreatePDF(html, dest=response, encoding='utf-8', xml=True)
     if pisaStatus.err:
         return HttpResponse('Error al generar el PDF: %s' % pisaStatus.err, status=500)
 

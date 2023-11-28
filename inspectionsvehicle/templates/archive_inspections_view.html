@@ -30,7 +30,7 @@
             </tr>
             {% for a in latest %}
             <tr>
-                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_date }}</td>
+                <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_inspection.inspection_create }}</td>
                 <td style="text-align: center; padding-left: 1em; padding-right: 1em;">{{ a.access_control }}</td>
                 <td style="text-align: center; padding-left: 1em; padding-right: 1em;">T{{ a.access_truck }}</td>
                 <td style="text-align: center; padding-left: 1em; padding-right: 1em;">C{{ a.access_trailer }}</td>
